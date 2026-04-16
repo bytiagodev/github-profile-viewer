@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Profile Viewer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <header>
+      <h1>GitHub Profile Viewer</h1>
+    </header>
+
+    <main>
+
+      <!-- Search -->
+      <section id="search-section">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Enter a GitHub username"
+          autocomplete="off"
+        />
+        <button id="search-btn">Search</button>
+      </section>
+
+      <!-- Error message -->
+      <p id="error-message" hidden></p>
+
+      <!-- Profile -->
+      <section id="profile-section" hidden>
+
+        <div id="profile-card">
+          <img id="profile-avatar" src="" alt="User avatar" />
+          <div id="profile-info">
+            <h2 id="profile-name"></h2>
+            <p id="profile-username"></p>
+            <p id="profile-bio"></p>
+            <ul id="profile-stats">
+              <li><span id="stat-repos"></span> Repos</li>
+              <li><span id="stat-followers"></span> Followers</li>
+              <li><span id="stat-following"></span> Following</li>
+            </ul>
+            <ul id="profile-links">
+              <li id="link-location"></li>
+              <li id="link-blog"></li>
+              <li id="link-twitter"></li>
+              <li id="link-github"></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Languages -->
+        <div id="languages-section">
+          <h3>Top Languages</h3>
+          <div id="languages-chart"></div>
+        </div>
+
+        <!-- Repositories -->
+        <div id="repos-section">
+          <div id="repos-header">
+            <h3>Repositories</h3>
+            <div id="repos-toggle">
+              <button class="toggle-btn active" data-sort="stars">Most Starred</button>
+              <button class="toggle-btn" data-sort="updated">Recently Updated</button>
+            </div>
+          </div>
+          <div id="repos-list"></div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer>
+      <p>Built with the <a href="https://docs.github.com/en/rest" target="_blank">GitHub REST API</a></p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
