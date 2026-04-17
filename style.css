@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap');
 
 /* ─── Variables ─── */
 :root {
@@ -101,10 +101,10 @@ main {
 }
 
 #hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 700;
+  letter-spacing: 0;
   line-height: 1.05;
   color: var(--text-primary);
 }
