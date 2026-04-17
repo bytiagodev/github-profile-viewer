@@ -99,6 +99,7 @@ async function fetchRepos(username) {
 function renderProfile(user) {
   profileAvatar.src = user.avatar_url;
   profileAvatar.alt = `${user.login}'s avatar`;
+  profileAvatar.style.borderColor = 'var(--border)';
   profileName.textContent = user.name || user.login;
   profileUsername.textContent = `@${user.login}`;
   profileBio.textContent = user.bio || '';
@@ -146,6 +147,13 @@ function renderLanguages(repos) {
   if (sorted.length === 0) {
     languagesChart.innerHTML = '<p style="font-size:0.8rem;color:var(--text-muted)">No language data available.</p>';
     return;
+  }
+
+  if (sorted.length > 0) {
+    const topLang = sorted[0][0];
+    const ringColor = langColors[topLang] || fallbackColor;
+    const wrapper = document.getElementById('profile-avatar-wrapper');
+    wrapper.style.borderColor = ringColor;
   }
 
   const total = sorted.reduce((sum, [, count]) => sum + count, 0);
