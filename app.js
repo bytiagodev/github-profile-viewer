@@ -99,7 +99,6 @@ async function fetchRepos(username) {
 function renderProfile(user) {
   profileAvatar.src = user.avatar_url;
   profileAvatar.alt = `${user.login}'s avatar`;
-  profileAvatar.style.borderColor = 'var(--border)';
   profileName.textContent = user.name || user.login;
   profileUsername.textContent = `@${user.login}`;
   profileBio.textContent = user.bio || '';
@@ -128,6 +127,17 @@ function renderProfile(user) {
 
   linkGithub.innerHTML = `<a href="${user.html_url}" target="_blank" rel="noopener">View on GitHub</a>`;
   linkGithub.hidden = false;
+
+  // Easter egg
+  const existing = document.getElementById('easter-egg');
+  if (existing) existing.remove();
+
+  if (user.login.toLowerCase() === 'bytiagodev') {
+    const egg = document.createElement('p');
+    egg.id = 'easter-egg';
+    egg.textContent = 'You found the one who built this.';
+    document.getElementById('profile-card').appendChild(egg);
+  }
 }
 
 // ─── Render languages ───
@@ -194,6 +204,7 @@ function renderRepos(sort) {
   if (repoCount) {
     repoCount.textContent = `showing ${top.length} of ${allRepos.length} public repositories`;
   }
+
   reposList.innerHTML = top.map(repo => `
     <a class="repo-card" href="${repo.html_url}" target="_blank" rel="noopener">
       <span class="repo-card-name">${repo.name}</span>
@@ -226,7 +237,6 @@ async function handleSearch() {
   searchBtn.textContent = 'Loading...';
   searchBtn.disabled = true;
 
-  // Remove any existing loader before adding a new one
   const existingLoader = document.getElementById('loader');
   if (existingLoader) existingLoader.remove();
 
@@ -273,14 +283,3 @@ searchBtn.addEventListener('click', handleSearch);
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Enter') handleSearch();
 });
-
-// Easter egg
-  const existing = document.getElementById('easter-egg');
-  if (existing) existing.remove();
-
-  if (user.login.toLowerCase() === 'bytiagodev') {
-    const egg = document.createElement('p');
-    egg.id = 'easter-egg';
-    egg.textContent = 'You found the architect. Now you know who built this.';
-    document.getElementById('profile-card').appendChild(egg);
-  }
