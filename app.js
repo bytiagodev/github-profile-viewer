@@ -182,7 +182,10 @@ function renderRepos(sort) {
   });
 
   const top = sorted.slice(0, 8);
-
+  const repoCount = document.getElementById('repo-count');
+  if (repoCount) {
+    repoCount.textContent = `showing ${top.length} of ${allRepos.length} public repositories`;
+  }
   reposList.innerHTML = top.map(repo => `
     <a class="repo-card" href="${repo.html_url}" target="_blank" rel="noopener">
       <span class="repo-card-name">${repo.name}</span>

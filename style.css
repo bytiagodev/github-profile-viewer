@@ -354,6 +354,17 @@ main {
 }
 
 /* ─── Repos ─── */
+#repos-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+#repo-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
 #repos-section {
   display: flex;
   flex-direction: column;
