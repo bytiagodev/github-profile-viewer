@@ -273,3 +273,14 @@ searchBtn.addEventListener('click', handleSearch);
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Enter') handleSearch();
 });
+
+// Easter egg
+  const existing = document.getElementById('easter-egg');
+  if (existing) existing.remove();
+
+  if (user.login.toLowerCase() === 'bytiagodev') {
+    const egg = document.createElement('p');
+    egg.id = 'easter-egg';
+    egg.textContent = 'You found the architect. Now you know who built this.';
+    document.getElementById('profile-card').appendChild(egg);
+  }

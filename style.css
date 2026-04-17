@@ -566,6 +566,15 @@ footer a:hover {
   color: rgba(255, 255, 255, 0.85);
 }
 
+#easter-egg {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
 @media (max-width: 600px) {
   main {
     padding: 2rem 1rem;
