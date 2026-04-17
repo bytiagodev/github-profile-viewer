@@ -215,7 +215,10 @@ async function handleSearch() {
   searchBtn.textContent = 'Loading...';
   searchBtn.disabled = true;
 
-  // Show loading pulse in place of profile
+  // Remove any existing loader before adding a new one
+  const existingLoader = document.getElementById('loader');
+  if (existingLoader) existingLoader.remove();
+
   const loader = document.createElement('div');
   loader.className = 'loading-pulse';
   loader.id = 'loader';
@@ -237,6 +240,11 @@ async function handleSearch() {
 
   } catch (err) {
     showError(err.message);
+  } finally {
+    searchBtn.textContent = 'Search';
+    searchBtn.disabled = false;
+    const loader = document.getElementById('loader');
+    if (loader) loader.remove();
   }
 }
 
