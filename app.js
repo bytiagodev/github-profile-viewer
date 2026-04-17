@@ -259,6 +259,14 @@ async function handleSearch() {
   }
 }
 
+// ─── Suggestions ───
+document.querySelectorAll('.suggestion').forEach(btn => {
+  btn.addEventListener('click', () => {
+    searchInput.value = btn.dataset.username;
+    handleSearch();
+  });
+});
+
 // ─── Events ───
 searchBtn.addEventListener('click', handleSearch);
 

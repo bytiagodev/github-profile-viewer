@@ -5,25 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GitHub Profile Viewer</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23141414'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='18' fill='%230066ff'>GH</text></svg>" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23111111'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='18' fill='%23e63946'>GH</text></svg>" />
+  </head>
   <body>
 
     <header>
       <h1>GitHub <span>Profile</span> Viewer</h1>
-      <p>explore any github profile</p>
     </header>
 
     <main>
 
-      <!-- Search -->
-      <section id="search-section">
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Enter a GitHub username"
-          autocomplete="off"
-        />
-        <button id="search-btn">Search</button>
+      <!-- Hero -->
+      <section id="hero">
+        <h2 id="hero-title">Who are you<br>looking for?</h2>
+        <p id="hero-subtitle">Every developer has a story. Start exploring.</p>
+
+        <!-- Search -->
+        <div id="search-section">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Enter a GitHub username"
+            autocomplete="off"
+          />
+          <button id="search-btn">Search</button>
+        </div>
+
+        <p id="hero-suggestions">Try searching <button class="suggestion" data-username="torvalds">torvalds</button>, <button class="suggestion" data-username="gaearon">gaearon</button> or <button class="suggestion" data-username="sindresorhus">sindresorhus</button></p>
       </section>
 
       <!-- Error message -->
@@ -67,7 +75,7 @@
               <h3>Repositories</h3>
               <span id="repo-count"></span>
             </div>
-          <div id="repos-toggle">
+            <div id="repos-toggle">
               <button class="toggle-btn active" data-sort="stars">Most Starred</button>
               <button class="toggle-btn" data-sort="updated">Recently Updated</button>
             </div>
