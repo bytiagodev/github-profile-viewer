@@ -2,13 +2,13 @@
 
 A frontend project built with vanilla HTML, CSS and JavaScript.
 
-Search any GitHub username and get a rich profile view, including their most starred and most recently updated repositories, and a visual breakdown of their top languages across all public repos.
+Search any GitHub username and get a rich profile view — including their most starred and most recently updated repositories, and a visual breakdown of their top languages across all public repos.
 
 Built against the public GitHub REST API. No authentication or API key required.
 
-## Status
+## Live
 
-In development — core functionality complete, refining before deployment.
+[bytiagodev.github.io/github-profile-viewer](https://bytiagodev.github.io/github-profile-viewer)
 
 ## Features
 
@@ -18,12 +18,14 @@ In development — core functionality complete, refining before deployment.
 - Top languages breakdown with animated proportional bars
 - Loading indicator for slow connections
 - Fully responsive layout
-- Warm, bold visual design with coral-orange accent
+- Clean, sharp visual design with a restrained blue accent
 
 ## Tech
 
 HTML, CSS, JavaScript
 
-## Live
+## Upcoming
 
-Coming soon.
+- Joined proportional language bar across the top of the languages section
+- Repo count context — showing X of Y public repositories
+- Profile card visual refinement
