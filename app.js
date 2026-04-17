@@ -181,7 +181,7 @@ function renderRepos(sort) {
     return new Date(b.updated_at) - new Date(a.updated_at);
   });
 
-  const top = sorted.slice(0, 9);
+  const top = sorted.slice(0, 8);
 
   reposList.innerHTML = top.map(repo => `
     <a class="repo-card" href="${repo.html_url}" target="_blank" rel="noopener">
@@ -223,10 +223,8 @@ async function handleSearch() {
   main.appendChild(loader);
 
   try {
-    const [user, repos] = await Promise.all([
-      fetchUser(username),
-      fetchRepos(username)
-    ]);
+    const user = await fetchUser(username);
+    const repos = await fetchRepos(username);
 
     allRepos = repos;
 
@@ -239,11 +237,6 @@ async function handleSearch() {
 
   } catch (err) {
     showError(err.message);
-  } finally {
-    searchBtn.textContent = 'Search';
-    searchBtn.disabled = false;
-    const loader = document.getElementById('loader');
-    if (loader) loader.remove();
   }
 }
 
