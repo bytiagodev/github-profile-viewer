@@ -546,22 +546,24 @@ main {
 /* ─── Footer ─── */
 footer {
   text-align: center;
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem;
   font-size: 0.75rem;
-  color: var(--text-muted);
-  border-top: 1px solid var(--border);
+  color: rgba(255, 255, 255, 0.4);
+  background: #111111;
+  border-top: 2.5px solid var(--accent);
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.3rem;
 }
 
 footer a {
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 footer a:hover {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 @media (max-width: 600px) {
