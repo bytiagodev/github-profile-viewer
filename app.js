@@ -262,6 +262,15 @@ async function handleSearch() {
     profileSection.removeAttribute('hidden');
     hero.classList.add('collapsed');
     beginningBtn.removeAttribute('hidden');
+
+    // Animate sections in sequence
+    const sections = profileSection.querySelectorAll('#profile-card, #languages-section, #repos-section, #results-footer');
+    sections.forEach(el => {
+      el.classList.remove('animate-in');
+      void el.offsetWidth;
+      el.classList.add('animate-in');
+    });
+
     profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch (err) {

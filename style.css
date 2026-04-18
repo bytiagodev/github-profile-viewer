@@ -627,6 +627,27 @@ footer a:hover {
   color: var(--text-secondary);
 }
 
+/* ─── Entrance animation ─── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-in:nth-child(1) { animation-delay: 0s; }
+.animate-in:nth-child(2) { animation-delay: 0.15s; }
+.animate-in:nth-child(3) { animation-delay: 0.35s; }
+.animate-in:nth-child(4) { animation-delay: 0.5s; }
+
 @media (max-width: 600px) {
   main {
     padding: 2rem 1rem;
