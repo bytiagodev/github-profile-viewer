@@ -217,7 +217,7 @@ function renderRepos(sort) {
       <span class="repo-card-name">${repo.name}</span>
       ${repo.description ? `<span class="repo-card-desc">${repo.description}</span>` : ''}
       <div class="repo-card-meta">
-        ${repo.language ? `<span>● ${repo.language}</span>` : ''}
+        ${repo.language ? `<span><span class="lang-dot" style="background:${langColors[repo.language] || fallbackColor}"></span>${repo.language}</span>` : ''}
         <span>★ ${formatNumber(repo.stargazers_count)}</span>
         <span>Updated ${timeAgo(repo.updated_at)}</span>
       </div>
