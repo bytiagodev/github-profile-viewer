@@ -354,8 +354,8 @@ main {
 /* ─── Links ─── */
 #profile-links {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1rem;
+  flex-direction: column;
+  gap: 0.4rem;
   list-style: none;
   margin-top: 0.75rem;
   padding-top: 0.75rem;
@@ -364,8 +364,16 @@ main {
 }
 
 #profile-links li {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.link-label {
+  font-size: 0.7rem;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: 0.3rem;
 }
 
 #profile-links a {

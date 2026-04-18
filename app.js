@@ -110,25 +110,29 @@ function renderProfile(user) {
   statFollowers.textContent = formatNumber(user.followers);
   statFollowing.textContent = formatNumber(user.following);
 
-  linkLocation.textContent = user.location || '';
-  linkLocation.hidden = !user.location;
+  if (user.location) {
+    linkLocation.innerHTML = `<span class="link-label">in</span> ${user.location}`;
+    linkLocation.hidden = false;
+  } else {
+    linkLocation.hidden = true;
+  }
 
   if (user.blog) {
     const url = user.blog.startsWith('http') ? user.blog : `https://${user.blog}`;
-    linkBlog.innerHTML = `<a href="${url}" target="_blank" rel="noopener">${user.blog}</a>`;
+    linkBlog.innerHTML = `<span class="link-label">web</span> <a href="${url}" target="_blank" rel="noopener">visit</a>`;
     linkBlog.hidden = false;
   } else {
     linkBlog.hidden = true;
   }
 
   if (user.twitter_username) {
-    linkTwitter.innerHTML = `<a href="https://twitter.com/${user.twitter_username}" target="_blank" rel="noopener">@${user.twitter_username}</a>`;
+    linkTwitter.innerHTML = `<span class="link-label">x.com</span> <a href="https://x.com/${user.twitter_username}" target="_blank" rel="noopener">${user.twitter_username}</a>`;
     linkTwitter.hidden = false;
   } else {
     linkTwitter.hidden = true;
   }
 
-  linkGithub.innerHTML = `<a href="${user.html_url}" target="_blank" rel="noopener">GitHub ↗</a>`;
+  linkGithub.innerHTML = `<span class="link-label">github</span> <a href="${user.html_url}" target="_blank" rel="noopener">view profile</a>`;
   linkGithub.hidden = false;
 
   // Easter egg
