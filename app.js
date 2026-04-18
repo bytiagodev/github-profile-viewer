@@ -128,7 +128,7 @@ function renderProfile(user) {
     linkTwitter.hidden = true;
   }
 
-  linkGithub.innerHTML = `<a href="${user.html_url}" target="_blank" rel="noopener">View on GitHub</a>`;
+  linkGithub.innerHTML = `<a href="${user.html_url}" target="_blank" rel="noopener">GitHub ↗</a>`;
   linkGithub.hidden = false;
 
   // Easter egg
@@ -139,7 +139,7 @@ function renderProfile(user) {
     const egg = document.createElement('p');
     egg.id = 'easter-egg';
     egg.textContent = 'You found the one who built this.';
-    document.getElementById('profile-card').appendChild(egg);
+    document.getElementById('profile-info').appendChild(egg);
   }
 }
 
