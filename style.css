@@ -503,7 +503,7 @@ main {
 }
 
 .toggle-btn.active {
-  background: var(--accent);
+  background: var(--text-primary);
   color: #fff;
 }
 
