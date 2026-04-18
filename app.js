@@ -18,6 +18,9 @@ const languagesChart = document.getElementById('languages-chart');
 const reposList = document.getElementById('repos-list');
 const main = document.querySelector('main');
 const toggleBtns = document.querySelectorAll('.toggle-btn');
+const hero = document.getElementById('hero');
+const beginningBtn = document.getElementById('beginning-btn');
+const searchAgainBtn = document.getElementById('search-again-btn');
 
 // ─── State ───
 let allRepos = [];
@@ -257,6 +260,8 @@ async function handleSearch() {
     renderRepos(currentSort);
 
     profileSection.removeAttribute('hidden');
+    hero.classList.add('collapsed');
+    beginningBtn.removeAttribute('hidden');
     profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch (err) {
@@ -275,6 +280,23 @@ document.querySelectorAll('.suggestion').forEach(btn => {
     searchInput.value = btn.dataset.username;
     handleSearch();
   });
+});
+
+// ─── Search again ───
+searchAgainBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => searchInput.focus(), 500);
+});
+
+// ─── Beginning ───
+beginningBtn.addEventListener('click', () => {
+  profileSection.setAttribute('hidden', '');
+  hero.classList.remove('collapsed');
+  beginningBtn.setAttribute('hidden', '');
+  searchInput.value = '';
+  hideError();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => searchInput.focus(), 500);
 });
 
 // ─── Events ───

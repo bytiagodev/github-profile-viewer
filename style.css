@@ -138,6 +138,18 @@ main {
   border-color: var(--text-primary);
 }
 
+/* ─── Hero states ─── */
+#hero.collapsed #hero-title,
+#hero.collapsed #hero-subtitle,
+#hero.collapsed #hero-suggestions {
+  display: none;
+}
+
+#hero.collapsed {
+  padding: 1.5rem 0;
+  gap: 0.75rem;
+}
+
 /* ─── Search ─── */
 #search-section {
   display: flex;
@@ -573,6 +585,46 @@ footer a:hover {
   margin-top: 0.5rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border);
+}
+
+/* ─── Results footer ─── */
+#results-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+#search-again-btn {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+#search-again-btn:hover {
+  color: var(--text-secondary);
+  border-color: var(--text-secondary);
+}
+
+#beginning-btn {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  font-style: italic;
+  transition: color 0.2s;
+}
+
+#beginning-btn:hover {
+  color: var(--text-secondary);
 }
 
 @media (max-width: 600px) {
