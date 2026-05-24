@@ -1,35 +1,61 @@
+<p align="center">
+  <img src="banner.svg" alt="GitHub Profile Viewer banner" width="100%" />
+</p>
+
+<p align="center">
+  <a href="https://bytiagodev.github.io/github-profile-viewer/">Live</a> · <a href="https://bytiago.com">Portfolio</a>
+</p>
+
+---
+
 # GitHub Profile Viewer
 
-A frontend project built with vanilla HTML, CSS and JavaScript, using the public GitHub REST API.
+A frontend project built with vanilla HTML, CSS and JavaScript, using the public GitHub REST API. No frameworks, no build tools, no dependencies. Just the browser.
 
 ## The idea
 
-This started as a simple profile search tool and grew into something with a bit more personality. The brief was straightforward, search any GitHub username and see their profile, repositories and top languages. But from the beginning the goal was to make something that felt designed and considered rather than assembled from tutorial parts.
+This started as a profile search tool and turned into something with a point of view. The brief was simple: search a GitHub username, see their profile. But from the beginning I wanted to build something that felt designed, not assembled from tutorial scraps.
 
-The result is an app built around a simple human idea. Every profile tells a story.
+The result is an app that treats every developer's profile as something worth presenting well. A warm palette, a considered type system, a visual language that connects the data end to end. It is built around one idea: every profile tells a story.
 
 ## What it does
 
-Search any GitHub username and get a rich profile view. The profile card shows the user's name, handle, bio, stats and links. The avatar ring changes color based on the user's most used language, tying the visual identity of the card to the data underneath it. Below the card a language breakdown shows the top languages across all public repos with animated proportional bars. Repositories can be toggled between most starred and most recently updated, with a count showing how many are being displayed out of the total.
+Search any GitHub username and get a full profile view. The card shows name, handle, bio, stats and links. The avatar ring changes color to match the user's most used language, so the card's visual identity is tied to the data underneath it.
 
-The hero collapses after the first search so the interface stays clean and focused. A search again flow at the bottom of the results lets you keep exploring without scrolling back up. And if you want to go back to the beginning, there is a way to do that too.
+Below the card, a language breakdown shows the top languages across all public repos with animated proportional bars. Repositories toggle between most starred and most recently updated, with a count of how many are displayed out of the total.
 
-The app handles errors gracefully, shows a loading state for slow connections, and includes a set of suggestion buttons to help first time visitors know where to start.
+The hero collapses after the first search. A flow at the bottom of the results lets you keep exploring without scrolling back up, and there is a way to return to the beginning if you want to start over.
+
+Errors are handled gracefully. A loading state covers slow connections. Suggestion buttons help first-time visitors know where to start.
 
 ## What makes it different
 
-The design has a point of view. A warm camel palette, a Fraunces display font in the hero, a restrained red accent and dark bookend header and footer, nothing in here is default. The repo cards use the same language color system as the chart so the data feels connected rather than compartmentalised. The profile name and repo names share the same accent color creating a consistent visual language throughout.
+The design has a point of view. Warm camel background, Fraunces display type in the hero, DM Mono as the system font, a restrained red accent, and dark bookend header and footer. Nothing in here is default.
 
-There are details in here for people who look closely. Developers who inspect source code will find something waiting for them. Anyone curious enough to search a specific username will find something too.
+The repo cards use the same language color system as the chart, so the data reads as one connected surface rather than separate sections. Profile and repo names share the same accent color. The avatar ring picks up the user's top language color. These decisions are small but they compound: the whole interface feels like it knows what it is.
 
-## What comes next
+There are things in here for people who look closely. Developers who read source code will find something. Anyone curious enough to search a specific username will find something too.
 
-The core experience is complete and the design is in a strong place. The next step is the next project, this one taught the lessons it was supposed to teach.
+## Design details
 
-## Tech
-
-HTML, CSS, JavaScript. No frameworks, no build tools. Hosted on GitHub Pages.
+| Element | Choice |
+|---|---|
+| Background | `#f5efe6` warm camel |
+| Accent | `#e63946` restrained red |
+| Display type | Fraunces 700 |
+| Body type | DM Mono 400 |
+| Dark bookends | `#111111` header and footer |
+| Cards | `#fdf9f5` on `#ddd5c8` borders |
+| Avatar ring | Dynamic, matches top language color |
+| Language bars | Animated fill on render, color per language |
+| Repo cards | Hover lift, accent border on hover |
 
 ## Live
 
-[bytiagodev.github.io/github-profile-viewer](https://bytiagodev.github.io/github-profile-viewer)
+**[bytiagodev.github.io/github-profile-viewer](https://bytiagodev.github.io/github-profile-viewer)**
+
+---
+
+<p align="center">
+  <sub>Made by <a href="https://github.com/bytiagodev">Tiago Teixeira</a> · <a href="https://bytiago.com">bytiago.com</a></sub>
+</p>
