@@ -286,8 +286,7 @@ main {
 
 #profile-card {
   display: flex;
-  gap: 2rem;
-  align-items: flex-start;
+  flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -295,9 +294,15 @@ main {
   box-shadow: var(--shadow-md);
 }
 
+#profile-card-top {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
 #profile-avatar-wrapper {
-  width: 100px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   border: 4px solid var(--border);
   flex-shrink: 0;
@@ -317,17 +322,7 @@ main {
 #profile-info {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   flex: 1;
-}
-
-#profile-name {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--accent);
-  line-height: 1.1;
 }
 
 #profile-username {
@@ -335,62 +330,69 @@ main {
   color: var(--text-muted);
   font-weight: 400;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-top: 0.1rem;
+}
+
+#link-location {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+#profile-name {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  line-height: 1.1;
+  margin-top: 0.4rem;
 }
 
 #profile-bio {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
   line-height: 1.7;
-  margin-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--border);
+  margin-top: 0.5rem;
+}
+
+/* ─── Card Footer ─── */
+#profile-card-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
 }
 
 /* ─── Stats ─── */
 #profile-stats {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   list-style: none;
-  margin-top: 0.75rem;
-  flex-wrap: wrap;
+  align-items: baseline;
 }
 
 #profile-stats li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 0.6rem 1.1rem;
-  min-width: 80px;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 #profile-stats li span {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-weight: 500;
+  font-size: 0.85rem;
   color: var(--text-primary);
-  letter-spacing: -0.03em;
+  margin-right: 0.15rem;
 }
 
 /* ─── Links ─── */
 #profile-links {
   display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.75rem;
   list-style: none;
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
-  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
 }
 
 #profile-links li {
@@ -704,10 +706,14 @@ footer a:hover {
 .animate-in:nth-child(4) { animation-delay: 0.5s; }
 
 @media (max-width: 768px) {
-  #profile-card {
+  #profile-card-top {
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+
+  #profile-card-footer {
+    justify-content: center;
   }
 
   #profile-stats {
@@ -715,7 +721,7 @@ footer a:hover {
   }
 
   #profile-links {
-    align-items: center;
+    justify-content: center;
   }
 }
 

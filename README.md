@@ -28,8 +28,6 @@ The hero collapses after the first search. A flow at the bottom of the results l
 
 Errors are handled gracefully. A loading state covers slow connections. Suggestion buttons help first-time visitors know where to start.
 
-Search results update the URL, so any profile can be shared as a direct link.
-
 ## What makes it different
 
 The design has a point of view. Warm camel background, Fraunces display type in the hero, DM Mono as the system font, a restrained red accent, and dark bookend header and footer. Nothing in here is default.
