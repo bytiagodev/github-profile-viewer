@@ -4,14 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GitHub Profile Viewer</title>
-    <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23111111'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='18' fill='%23e63946'>GH</text></svg>" />
   </head>
   <body>
 
     <!-- You're reading the source. That means you care about the craft. So do I. -->
+
+    <a href="#hero" class="skip-link">Skip to content</a>
 
     <header>
       <h1>GitHub <span>Profile</span> Viewer</h1>
@@ -25,7 +28,8 @@
         <p id="hero-subtitle">Every developer has a story. Start exploring.</p>
 
         <!-- Search -->
-        <div id="search-section">
+        <div id="search-section" role="search">
+          <label for="search-input" class="sr-only">GitHub username</label>
           <input
             type="text"
             id="search-input"
@@ -39,8 +43,11 @@
         <button id="beginning-btn" hidden>Every story has a beginning.</button>
       </section>
 
+      <!-- Status announcements -->
+      <div id="status-announce" class="sr-only" aria-live="polite"></div>
+
       <!-- Error message -->
-      <p id="error-message" hidden></p>
+      <p id="error-message" role="alert" hidden></p>
 
       <!-- Profile -->
       <section id="profile-section" hidden>
@@ -80,9 +87,9 @@
               <h3>Repositories</h3>
               <span id="repo-count"></span>
             </div>
-            <div id="repos-toggle">
-              <button class="toggle-btn active" data-sort="stars">Most Starred</button>
-              <button class="toggle-btn" data-sort="updated">Recently Updated</button>
+            <div id="repos-toggle" role="group" aria-label="Sort repositories">
+              <button class="toggle-btn active" data-sort="stars" aria-pressed="true">Most Starred</button>
+              <button class="toggle-btn" data-sort="updated" aria-pressed="false">Recently Updated</button>
             </div>
           </div>
           <div id="repos-list"></div>

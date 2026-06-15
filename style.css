@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap');
-
 /* ─── Variables ─── */
 :root {
   --bg: #f5efe6;
@@ -10,17 +8,13 @@
   --text-secondary: #5a5248;
   --text-muted: #9a8e84;
   --accent: #e63946;
-  --accent-light: #fdecea;
   --accent-mid: #f4969c;
-  --success: #1db954;
-  --warning: #f5a623;
-  --danger: #e5484d;
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  --font-serif: 'Fraunces', serif;
   --font-display: 'Syne', sans-serif;
   --font-body: 'DM Mono', monospace;
 }
@@ -49,6 +43,38 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* ─── Accessibility ─── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  z-index: 100;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0.5rem;
 }
 
 /* ─── Header ─── */
@@ -101,7 +127,7 @@ main {
 }
 
 #hero-title {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-serif);
   font-size: clamp(3rem, 9vw, 6rem);
   font-weight: 700;
   letter-spacing: 0;
@@ -254,6 +280,10 @@ main {
   display: flex;
 }
 
+#profile-section:focus {
+  outline: none;
+}
+
 #profile-card {
   display: flex;
   gap: 2rem;
@@ -292,7 +322,7 @@ main {
 }
 
 #profile-name {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-serif);
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -533,7 +563,7 @@ main {
 }
 
 .repo-card-name {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-serif);
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--accent);
@@ -673,6 +703,22 @@ footer a:hover {
 .animate-in:nth-child(3) { animation-delay: 0.35s; }
 .animate-in:nth-child(4) { animation-delay: 0.5s; }
 
+@media (max-width: 768px) {
+  #profile-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #profile-stats {
+    justify-content: center;
+  }
+
+  #profile-links {
+    align-items: center;
+  }
+}
+
 @media (max-width: 600px) {
   main {
     padding: 2rem 1rem;
@@ -685,20 +731,6 @@ footer a:hover {
   #search-input,
   #search-btn {
     width: 100%;
-  }
-
-  #profile-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  #profile-stats {
-    justify-content: center;
-  }
-
-  #profile-links {
-    justify-content: center;
   }
 
   #repos-header {

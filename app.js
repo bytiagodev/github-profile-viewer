@@ -21,6 +21,7 @@ const toggleBtns = document.querySelectorAll('.toggle-btn');
 const hero = document.getElementById('hero');
 const beginningBtn = document.getElementById('beginning-btn');
 const searchAgainBtn = document.getElementById('search-again-btn');
+const statusAnnounce = document.getElementById('status-announce');
 
 // ─── State ───
 let allRepos = [];
@@ -53,6 +54,16 @@ const langColors = {
 const fallbackColor = '#a593fa';
 
 // ─── Helpers ───
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function announce(message) {
+  if (statusAnnounce) statusAnnounce.textContent = message;
+}
+
 function showError(message) {
   errorMessage.textContent = message;
   errorMessage.removeAttribute('hidden');
@@ -111,7 +122,7 @@ function renderProfile(user) {
   statFollowing.textContent = formatNumber(user.following);
 
   if (user.location) {
-    linkLocation.innerHTML = `<span class="link-label">in</span> ${user.location}`;
+    linkLocation.innerHTML = `<span class="link-label">in</span> ${escapeHtml(user.location)}`;
     linkLocation.hidden = false;
   } else {
     linkLocation.hidden = true;
@@ -119,20 +130,21 @@ function renderProfile(user) {
 
   if (user.blog) {
     const url = user.blog.startsWith('http') ? user.blog : `https://${user.blog}`;
-    linkBlog.innerHTML = `<span class="link-label">web</span> <a href="${url}" target="_blank" rel="noopener">visit</a>`;
+    linkBlog.innerHTML = `<span class="link-label">web</span> <a href="${escapeHtml(url)}" target="_blank" rel="noopener">visit</a>`;
     linkBlog.hidden = false;
   } else {
     linkBlog.hidden = true;
   }
 
   if (user.twitter_username) {
-    linkTwitter.innerHTML = `<span class="link-label">x.com</span> <a href="https://x.com/${user.twitter_username}" target="_blank" rel="noopener">${user.twitter_username}</a>`;
+    const handle = escapeHtml(user.twitter_username);
+    linkTwitter.innerHTML = `<span class="link-label">x.com</span> <a href="https://x.com/${handle}" target="_blank" rel="noopener">${handle}</a>`;
     linkTwitter.hidden = false;
   } else {
     linkTwitter.hidden = true;
   }
 
-  linkGithub.innerHTML = `<span class="link-label">github</span> <a href="${user.html_url}" target="_blank" rel="noopener">view profile</a>`;
+  linkGithub.innerHTML = `<span class="link-label">github</span> <a href="${escapeHtml(user.html_url)}" target="_blank" rel="noopener">view profile</a>`;
   linkGithub.hidden = false;
 
   // Easter egg
@@ -166,12 +178,10 @@ function renderLanguages(repos) {
     return;
   }
 
-  if (sorted.length > 0) {
-    const topLang = sorted[0][0];
-    const ringColor = langColors[topLang] || fallbackColor;
-    const wrapper = document.getElementById('profile-avatar-wrapper');
-    wrapper.style.borderColor = ringColor;
-  }
+  const topLang = sorted[0][0];
+  const ringColor = langColors[topLang] || fallbackColor;
+  const wrapper = document.getElementById('profile-avatar-wrapper');
+  wrapper.style.borderColor = ringColor;
 
   const total = sorted.reduce((sum, [, count]) => sum + count, 0);
 
@@ -180,7 +190,7 @@ function renderLanguages(repos) {
     const color = langColors[lang] || fallbackColor;
     return `
       <div class="lang-row">
-        <span class="lang-name">${lang}</span>
+        <span class="lang-name">${escapeHtml(lang)}</span>
         <div class="lang-bar-track">
           <div class="lang-bar-fill" style="width: 0%; background: ${color}" data-width="${percent}%"></div>
         </div>
@@ -213,11 +223,11 @@ function renderRepos(sort) {
   }
 
   reposList.innerHTML = top.map(repo => `
-    <a class="repo-card" href="${repo.html_url}" target="_blank" rel="noopener">
-      <span class="repo-card-name">${repo.name}</span>
-      ${repo.description ? `<span class="repo-card-desc">${repo.description}</span>` : ''}
+    <a class="repo-card" href="${escapeHtml(repo.html_url)}" target="_blank" rel="noopener">
+      <span class="repo-card-name">${escapeHtml(repo.name)}</span>
+      ${repo.description ? `<span class="repo-card-desc">${escapeHtml(repo.description)}</span>` : ''}
       <div class="repo-card-meta">
-        ${repo.language ? `<span><span class="lang-dot" style="background:${langColors[repo.language] || fallbackColor}"></span>${repo.language}</span>` : ''}
+        ${repo.language ? `<span><span class="lang-dot" style="background:${langColors[repo.language] || fallbackColor}"></span>${escapeHtml(repo.language)}</span>` : ''}
         <span>★ ${formatNumber(repo.stargazers_count)}</span>
         <span>Updated ${timeAgo(repo.updated_at)}</span>
       </div>
@@ -228,8 +238,12 @@ function renderRepos(sort) {
 // ─── Toggle buttons ───
 toggleBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    toggleBtns.forEach(b => b.classList.remove('active'));
+    toggleBtns.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
     renderRepos(btn.dataset.sort);
   });
 });
@@ -243,6 +257,7 @@ async function handleSearch() {
   profileSection.setAttribute('hidden', '');
   searchBtn.textContent = 'Loading...';
   searchBtn.disabled = true;
+  announce(`Searching for ${username}`);
 
   const existingLoader = document.getElementById('loader');
   if (existingLoader) existingLoader.remove();
@@ -254,8 +269,10 @@ async function handleSearch() {
   main.appendChild(loader);
 
   try {
-    const user = await fetchUser(username);
-    const repos = await fetchRepos(username);
+    const [user, repos] = await Promise.all([
+      fetchUser(username),
+      fetchRepos(username)
+    ]);
 
     allRepos = repos;
 
@@ -276,9 +293,15 @@ async function handleSearch() {
     });
 
     profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    announce(`Showing profile for ${user.name || user.login}`);
+
+    // Move focus to profile for keyboard users
+    profileSection.setAttribute('tabindex', '-1');
+    profileSection.focus({ preventScroll: true });
 
   } catch (err) {
     showError(err.message);
+    announce(err.message);
   } finally {
     searchBtn.textContent = 'Search';
     searchBtn.disabled = false;
@@ -308,6 +331,15 @@ beginningBtn.addEventListener('click', () => {
   beginningBtn.setAttribute('hidden', '');
   searchInput.value = '';
   hideError();
+
+  // Reset sort state and toggle buttons
+  currentSort = 'stars';
+  toggleBtns.forEach(btn => {
+    const isStars = btn.dataset.sort === 'stars';
+    btn.classList.toggle('active', isStars);
+    btn.setAttribute('aria-pressed', String(isStars));
+  });
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
   setTimeout(() => searchInput.focus(), 500);
 });
