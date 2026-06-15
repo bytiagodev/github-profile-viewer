@@ -295,6 +295,9 @@ async function handleSearch() {
     profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     announce(`Showing profile for ${user.name || user.login}`);
 
+    // Update URL hash for sharing
+    history.replaceState(null, '', `#${username}`);
+
     // Move focus to profile for keyboard users
     profileSection.setAttribute('tabindex', '-1');
     profileSection.focus({ preventScroll: true });
@@ -334,6 +337,9 @@ beginningBtn.addEventListener('click', () => {
 
   // Reset sort state and toggle buttons
   currentSort = 'stars';
+
+  // Clear URL hash
+  history.replaceState(null, '', window.location.pathname);
   toggleBtns.forEach(btn => {
     const isStars = btn.dataset.sort === 'stars';
     btn.classList.toggle('active', isStars);
@@ -350,3 +356,26 @@ searchBtn.addEventListener('click', handleSearch);
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Enter') handleSearch();
 });
+
+// ─── Hash routing ───
+function getHashUsername() {
+  const hash = window.location.hash.slice(1).trim();
+  return hash || null;
+}
+
+function handleHashChange() {
+  const username = getHashUsername();
+  if (username) {
+    searchInput.value = username;
+    handleSearch();
+  }
+}
+
+window.addEventListener('hashchange', handleHashChange);
+
+// Load from hash on first visit
+const initialUser = getHashUsername();
+if (initialUser) {
+  searchInput.value = initialUser;
+  handleSearch();
+}
