@@ -1,61 +1,61 @@
 // ─── Element refs ───
-const searchInput = document.getElementById('search-input');
-const searchBtn = document.getElementById('search-btn');
-const errorMessage = document.getElementById('error-message');
-const profileSection = document.getElementById('profile-section');
-const profileAvatar = document.getElementById('profile-avatar');
-const profileName = document.getElementById('profile-name');
-const profileUsername = document.getElementById('profile-username');
-const profileBio = document.getElementById('profile-bio');
-const statRepos = document.getElementById('stat-repos');
-const statFollowers = document.getElementById('stat-followers');
-const statFollowing = document.getElementById('stat-following');
-const linkLocation = document.getElementById('link-location');
-const linkBlog = document.getElementById('link-blog');
-const linkTwitter = document.getElementById('link-twitter');
-const linkGithub = document.getElementById('link-github');
-const languagesChart = document.getElementById('languages-chart');
-const reposList = document.getElementById('repos-list');
-const main = document.querySelector('main');
-const toggleBtns = document.querySelectorAll('.toggle-btn');
-const hero = document.getElementById('hero');
-const beginningBtn = document.getElementById('beginning-btn');
-const searchAgainBtn = document.getElementById('search-again-btn');
-const statusAnnounce = document.getElementById('status-announce');
+const searchInput = document.getElementById("search-input");
+const searchBtn = document.getElementById("search-btn");
+const errorMessage = document.getElementById("error-message");
+const profileSection = document.getElementById("profile-section");
+const profileAvatar = document.getElementById("profile-avatar");
+const profileName = document.getElementById("profile-name");
+const profileUsername = document.getElementById("profile-username");
+const profileBio = document.getElementById("profile-bio");
+const statRepos = document.getElementById("stat-repos");
+const statFollowers = document.getElementById("stat-followers");
+const statFollowing = document.getElementById("stat-following");
+const linkLocation = document.getElementById("link-location");
+const linkBlog = document.getElementById("link-blog");
+const linkTwitter = document.getElementById("link-twitter");
+const linkGithub = document.getElementById("link-github");
+const languagesChart = document.getElementById("languages-chart");
+const reposList = document.getElementById("repos-list");
+const main = document.querySelector("main");
+const toggleBtns = document.querySelectorAll(".toggle-btn");
+const hero = document.getElementById("hero");
+const beginningBtn = document.getElementById("beginning-btn");
+const searchAgainBtn = document.getElementById("search-again-btn");
+const statusAnnounce = document.getElementById("status-announce");
 
 // ─── State ───
 let allRepos = [];
-let currentSort = 'stars';
+let currentSort = "stars";
 
 // ─── Language colors ───
 const langColors = {
-  JavaScript: '#f7df1e',
-  TypeScript: '#3178c6',
-  HTML:       '#e34c26',
-  CSS:        '#563d7c',
-  Python:     '#3572A5',
-  Ruby:       '#701516',
-  Java:       '#b07219',
-  PHP:        '#4F5D95',
-  Go:         '#00ADD8',
-  Rust:       '#dea584',
-  Swift:      '#FA7343',
-  Kotlin:     '#A97BFF',
-  C:          '#555555',
-  'C++':      '#f34b7d',
-  'C#':       '#178600',
-  Shell:      '#89e051',
-  Vue:        '#41b883',
-  Svelte:     '#ff3e00',
-  Dart:       '#00B4AB',
-  Scala:      '#c22d40',
+  JavaScript: "#f7df1e",
+  TypeScript: "#3178c6",
+  HTML: "#e34c26",
+  CSS: "#563d7c",
+  Python: "#3572A5",
+  Ruby: "#701516",
+  Java: "#b07219",
+  PHP: "#4F5D95",
+  Go: "#00ADD8",
+  Rust: "#dea584",
+  Swift: "#FA7343",
+  Kotlin: "#A97BFF",
+  C: "#555555",
+  "C++": "#f34b7d",
+  "C#": "#178600",
+  Shell: "#89e051",
+  Vue: "#41b883",
+  Svelte: "#ff3e00",
+  Dart: "#00B4AB",
+  Scala: "#c22d40",
 };
 
-const fallbackColor = '#a593fa';
+const fallbackColor = "#a593fa";
 
 // ─── Helpers ───
 function escapeHtml(str) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.textContent = str;
   return div.innerHTML;
 }
@@ -66,24 +66,25 @@ function announce(message) {
 
 function showError(message) {
   errorMessage.textContent = message;
-  errorMessage.removeAttribute('hidden');
-  profileSection.setAttribute('hidden', '');
+  errorMessage.removeAttribute("hidden");
+  profileSection.setAttribute("hidden", "");
 }
 
 function hideError() {
-  errorMessage.setAttribute('hidden', '');
+  errorMessage.setAttribute("hidden", "");
 }
 
 function formatNumber(num) {
-  if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+  if (num >= 1000) return (num / 1000).toFixed(1) + "k";
   return num;
 }
 
 function timeAgo(dateString) {
+  if (!dateString) return null;
   const date = new Date(dateString);
   const now = new Date();
   const diff = Math.floor((now - date) / 1000);
-  if (diff < 60) return 'just now';
+  if (diff < 60) return "just now";
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
   if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
   if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
@@ -94,18 +95,20 @@ function timeAgo(dateString) {
 // ─── Fetch user ───
 async function fetchUser(username) {
   const res = await fetch(`https://api.github.com/users/${username}`);
-  if (res.status === 404) throw new Error('User not found. Check the username and try again.');
-  if (res.status === 403) throw new Error('GitHub API rate limit reached. Try again in a moment.');
-  if (!res.ok) throw new Error('Something went wrong. Please try again.');
+  if (res.status === 404)
+    throw new Error("User not found. Check the username and try again.");
+  if (res.status === 403)
+    throw new Error("GitHub API rate limit reached. Try again in a moment.");
+  if (!res.ok) throw new Error("Something went wrong. Please try again.");
   return res.json();
 }
 
 // ─── Fetch repos ───
 async function fetchRepos(username) {
   const res = await fetch(
-    `https://api.github.com/users/${username}/repos?per_page=100&type=public`
+    `https://api.github.com/users/${username}/repos?per_page=100&type=public`,
   );
-  if (!res.ok) throw new Error('Could not load repositories.');
+  if (!res.ok) throw new Error("Could not load repositories.");
   return res.json();
 }
 
@@ -115,7 +118,7 @@ function renderProfile(user) {
   profileAvatar.alt = `${user.login}'s avatar`;
   profileName.textContent = user.name || user.login;
   profileUsername.textContent = `@${user.login}`;
-  profileBio.textContent = user.bio || '';
+  profileBio.textContent = user.bio || "";
   profileBio.hidden = !user.bio;
   statRepos.textContent = formatNumber(user.public_repos);
   statFollowers.textContent = formatNumber(user.followers);
@@ -129,7 +132,9 @@ function renderProfile(user) {
   }
 
   if (user.blog) {
-    const url = user.blog.startsWith('http') ? user.blog : `https://${user.blog}`;
+    const url = user.blog.startsWith("http")
+      ? user.blog
+      : `https://${user.blog}`;
     linkBlog.innerHTML = `<span class="link-label">web</span> <a href="${escapeHtml(url)}" target="_blank" rel="noopener">visit</a>`;
     linkBlog.hidden = false;
   } else {
@@ -148,14 +153,14 @@ function renderProfile(user) {
   linkGithub.hidden = false;
 
   // Easter egg
-  const existing = document.getElementById('easter-egg');
+  const existing = document.getElementById("easter-egg");
   if (existing) existing.remove();
 
-  if (user.login.toLowerCase() === 'bytiagodev') {
-    const egg = document.createElement('p');
-    egg.id = 'easter-egg';
-    egg.textContent = 'You found the one who built this.';
-    document.getElementById('profile-info').appendChild(egg);
+  if (user.login.toLowerCase() === "bytiagodev") {
+    const egg = document.createElement("p");
+    egg.id = "easter-egg";
+    egg.textContent = "You found the one who built this.";
+    document.getElementById("profile-info").appendChild(egg);
   }
 }
 
@@ -163,7 +168,7 @@ function renderProfile(user) {
 function renderLanguages(repos) {
   const counts = {};
 
-  repos.forEach(repo => {
+  repos.forEach((repo) => {
     if (repo.language) {
       counts[repo.language] = (counts[repo.language] || 0) + 1;
     }
@@ -174,21 +179,23 @@ function renderLanguages(repos) {
     .slice(0, 6);
 
   if (sorted.length === 0) {
-    languagesChart.innerHTML = '<p style="font-size:0.8rem;color:var(--text-muted)">No language data available.</p>';
+    languagesChart.innerHTML =
+      '<p style="font-size:0.8rem;color:var(--text-muted)">No language data available.</p>';
     return;
   }
 
   const topLang = sorted[0][0];
   const ringColor = langColors[topLang] || fallbackColor;
-  const wrapper = document.getElementById('profile-avatar-wrapper');
+  const wrapper = document.getElementById("profile-avatar-wrapper");
   wrapper.style.borderColor = ringColor;
 
   const total = sorted.reduce((sum, [, count]) => sum + count, 0);
 
-  languagesChart.innerHTML = sorted.map(([lang, count]) => {
-    const percent = Math.round((count / total) * 100);
-    const color = langColors[lang] || fallbackColor;
-    return `
+  languagesChart.innerHTML = sorted
+    .map(([lang, count]) => {
+      const percent = Math.round((count / total) * 100);
+      const color = langColors[lang] || fallbackColor;
+      return `
       <div class="lang-row">
         <span class="lang-name">${escapeHtml(lang)}</span>
         <div class="lang-bar-track">
@@ -197,11 +204,12 @@ function renderLanguages(repos) {
         <span class="lang-percent">${percent}%</span>
       </div>
     `;
-  }).join('');
+    })
+    .join("");
 
   // Animate bars after render
   requestAnimationFrame(() => {
-    document.querySelectorAll('.lang-bar-fill').forEach(bar => {
+    document.querySelectorAll(".lang-bar-fill").forEach((bar) => {
       bar.style.width = bar.dataset.width;
     });
   });
@@ -212,38 +220,42 @@ function renderRepos(sort) {
   currentSort = sort;
 
   const sorted = [...allRepos].sort((a, b) => {
-    if (sort === 'stars') return b.stargazers_count - a.stargazers_count;
-    return new Date(b.updated_at) - new Date(a.updated_at);
+    if (sort === "stars") return b.stargazers_count - a.stargazers_count;
+    return new Date(b.pushed_at) - new Date(a.pushed_at);
   });
 
   const top = sorted.slice(0, 8);
-  const repoCount = document.getElementById('repo-count');
+  const repoCount = document.getElementById("repo-count");
   if (repoCount) {
     repoCount.textContent = `showing ${top.length} of ${allRepos.length} public repositories`;
   }
 
-  reposList.innerHTML = top.map(repo => `
+  reposList.innerHTML = top
+    .map(
+      (repo) => `
     <a class="repo-card" href="${escapeHtml(repo.html_url)}" target="_blank" rel="noopener">
       <span class="repo-card-name">${escapeHtml(repo.name)}</span>
-      ${repo.description ? `<span class="repo-card-desc">${escapeHtml(repo.description)}</span>` : ''}
+      ${repo.description ? `<span class="repo-card-desc">${escapeHtml(repo.description)}</span>` : ""}
       <div class="repo-card-meta">
-        ${repo.language ? `<span><span class="lang-dot" style="background:${langColors[repo.language] || fallbackColor}"></span>${escapeHtml(repo.language)}</span>` : ''}
+        ${repo.language ? `<span><span class="lang-dot" style="background:${langColors[repo.language] || fallbackColor}"></span>${escapeHtml(repo.language)}</span>` : ""}
         <span>★ ${formatNumber(repo.stargazers_count)}</span>
-        <span>Updated ${timeAgo(repo.updated_at)}</span>
+        ${repo.pushed_at ? `<span>Updated ${timeAgo(repo.pushed_at)}</span>` : ""}
       </div>
     </a>
-  `).join('');
+  `,
+    )
+    .join("");
 }
 
 // ─── Toggle buttons ───
-toggleBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    toggleBtns.forEach(b => {
-      b.classList.remove('active');
-      b.setAttribute('aria-pressed', 'false');
+toggleBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    toggleBtns.forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-pressed", "false");
     });
-    btn.classList.add('active');
-    btn.setAttribute('aria-pressed', 'true');
+    btn.classList.add("active");
+    btn.setAttribute("aria-pressed", "true");
     renderRepos(btn.dataset.sort);
   });
 });
@@ -254,24 +266,24 @@ async function handleSearch() {
   if (!username) return;
 
   hideError();
-  profileSection.setAttribute('hidden', '');
-  searchBtn.textContent = 'Loading...';
+  profileSection.setAttribute("hidden", "");
+  searchBtn.textContent = "Loading...";
   searchBtn.disabled = true;
   announce(`Searching for ${username}`);
 
-  const existingLoader = document.getElementById('loader');
+  const existingLoader = document.getElementById("loader");
   if (existingLoader) existingLoader.remove();
 
-  const loader = document.createElement('div');
-  loader.className = 'loading-pulse';
-  loader.id = 'loader';
-  loader.innerHTML = '<span></span><span></span><span></span>';
+  const loader = document.createElement("div");
+  loader.className = "loading-pulse";
+  loader.id = "loader";
+  loader.innerHTML = "<span></span><span></span><span></span>";
   main.appendChild(loader);
 
   try {
     const [user, repos] = await Promise.all([
       fetchUser(username),
-      fetchRepos(username)
+      fetchRepos(username),
     ]);
 
     allRepos = repos;
@@ -280,81 +292,82 @@ async function handleSearch() {
     renderLanguages(repos);
     renderRepos(currentSort);
 
-    profileSection.removeAttribute('hidden');
-    hero.classList.add('collapsed');
-    beginningBtn.removeAttribute('hidden');
+    profileSection.removeAttribute("hidden");
+    hero.classList.add("collapsed");
+    beginningBtn.removeAttribute("hidden");
 
     // Animate sections in sequence
-    const sections = profileSection.querySelectorAll('#profile-card, #languages-section, #repos-section, #results-footer');
-    sections.forEach(el => {
-      el.classList.remove('animate-in');
+    const sections = profileSection.querySelectorAll(
+      "#profile-card, #languages-section, #repos-section, #results-footer",
+    );
+    sections.forEach((el) => {
+      el.classList.remove("animate-in");
       void el.offsetWidth;
-      el.classList.add('animate-in');
+      el.classList.add("animate-in");
     });
 
-    profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    profileSection.scrollIntoView({ behavior: "smooth", block: "start" });
     announce(`Showing profile for ${user.name || user.login}`);
 
     // Update URL hash for sharing
-    history.replaceState(null, '', `#${username}`);
+    history.replaceState(null, "", `#${username}`);
 
     // Move focus to profile for keyboard users
-    profileSection.setAttribute('tabindex', '-1');
+    profileSection.setAttribute("tabindex", "-1");
     profileSection.focus({ preventScroll: true });
-
   } catch (err) {
     showError(err.message);
     announce(err.message);
   } finally {
-    searchBtn.textContent = 'Search';
+    searchBtn.textContent = "Search";
     searchBtn.disabled = false;
-    const loader = document.getElementById('loader');
+    const loader = document.getElementById("loader");
     if (loader) loader.remove();
   }
 }
 
 // ─── Suggestions ───
-document.querySelectorAll('.suggestion').forEach(btn => {
-  btn.addEventListener('click', () => {
+document.querySelectorAll(".suggestion").forEach((btn) => {
+  btn.addEventListener("click", () => {
     searchInput.value = btn.dataset.username;
     handleSearch();
   });
 });
 
 // ─── Search again ───
-searchAgainBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+searchAgainBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
   setTimeout(() => searchInput.focus(), 500);
 });
 
 // ─── Beginning ───
-beginningBtn.addEventListener('click', () => {
-  profileSection.setAttribute('hidden', '');
-  hero.classList.remove('collapsed');
-  beginningBtn.setAttribute('hidden', '');
-  searchInput.value = '';
+beginningBtn.addEventListener("click", () => {
+  profileSection.setAttribute("hidden", "");
+  hero.classList.remove("collapsed");
+  beginningBtn.setAttribute("hidden", "");
+  searchInput.value = "";
   hideError();
 
   // Reset sort state and toggle buttons
-  currentSort = 'stars';
+  currentSort = "stars";
 
   // Clear URL hash
-  history.replaceState(null, '', window.location.pathname);
-  toggleBtns.forEach(btn => {
-    const isStars = btn.dataset.sort === 'stars';
-    btn.classList.toggle('active', isStars);
-    btn.setAttribute('aria-pressed', String(isStars));
+  history.replaceState(null, "", window.location.pathname);
+  toggleBtns.forEach((btn) => {
+    const isStars = btn.dataset.sort === "stars";
+    btn.classList.toggle("active", isStars);
+    btn.setAttribute("aria-pressed", String(isStars));
   });
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: "smooth" });
   setTimeout(() => searchInput.focus(), 500);
 });
 
 // ─── Events ───
-searchBtn.addEventListener('click', handleSearch);
+searchBtn.addEventListener("click", handleSearch);
 
-searchInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') handleSearch();
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") handleSearch();
 });
 
 // ─── Hash routing ───
@@ -371,7 +384,7 @@ function handleHashChange() {
   }
 }
 
-window.addEventListener('hashchange', handleHashChange);
+window.addEventListener("hashchange", handleHashChange);
 
 // Load from hash on first visit
 const initialUser = getHashUsername();
