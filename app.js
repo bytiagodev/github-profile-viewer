@@ -92,7 +92,6 @@ function timeAgo(dateString) {
   return `${Math.floor(diff / 31536000)}y ago`;
 }
 
-// ─── Fetch user ───
 async function fetchUser(username) {
   const res = await fetch(`https://api.github.com/users/${username}`);
   if (res.status === 404)
@@ -103,7 +102,6 @@ async function fetchUser(username) {
   return res.json();
 }
 
-// ─── Fetch repos ───
 async function fetchRepos(username) {
   const res = await fetch(
     `https://api.github.com/users/${username}/repos?per_page=100&type=public`,
@@ -112,7 +110,6 @@ async function fetchRepos(username) {
   return res.json();
 }
 
-// ─── Render profile ───
 function renderProfile(user) {
   profileAvatar.src = user.avatar_url;
   profileAvatar.alt = `${user.login}'s avatar`;
@@ -152,7 +149,6 @@ function renderProfile(user) {
   linkGithub.innerHTML = `<span class="link-label">github</span> <a href="${escapeHtml(user.html_url)}" target="_blank" rel="noopener">view profile</a>`;
   linkGithub.hidden = false;
 
-  // Easter egg
   const existing = document.getElementById("easter-egg");
   if (existing) existing.remove();
 
@@ -164,7 +160,6 @@ function renderProfile(user) {
   }
 }
 
-// ─── Render languages ───
 function renderLanguages(repos) {
   const counts = {};
 
@@ -207,7 +202,6 @@ function renderLanguages(repos) {
     })
     .join("");
 
-  // Animate bars after render
   requestAnimationFrame(() => {
     document.querySelectorAll(".lang-bar-fill").forEach((bar) => {
       bar.style.width = bar.dataset.width;
@@ -215,7 +209,6 @@ function renderLanguages(repos) {
   });
 }
 
-// ─── Render repos ───
 function renderRepos(sort) {
   currentSort = sort;
 
@@ -247,7 +240,6 @@ function renderRepos(sort) {
     .join("");
 }
 
-// ─── Toggle buttons ───
 toggleBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     toggleBtns.forEach((b) => {
@@ -260,7 +252,6 @@ toggleBtns.forEach((btn) => {
   });
 });
 
-// ─── Main search ───
 async function handleSearch() {
   const username = searchInput.value.trim();
   if (!username) return;
@@ -296,7 +287,6 @@ async function handleSearch() {
     hero.classList.add("collapsed");
     beginningBtn.removeAttribute("hidden");
 
-    // Animate sections in sequence
     const sections = profileSection.querySelectorAll(
       "#profile-card, #languages-section, #repos-section, #results-footer",
     );
@@ -309,7 +299,6 @@ async function handleSearch() {
     profileSection.scrollIntoView({ behavior: "smooth", block: "start" });
     announce(`Showing profile for ${user.name || user.login}`);
 
-    // Update URL hash for sharing
     history.replaceState(null, "", `#${username}`);
 
     // Move focus to profile for keyboard users
@@ -326,7 +315,6 @@ async function handleSearch() {
   }
 }
 
-// ─── Suggestions ───
 document.querySelectorAll(".suggestion").forEach((btn) => {
   btn.addEventListener("click", () => {
     searchInput.value = btn.dataset.username;
@@ -334,13 +322,11 @@ document.querySelectorAll(".suggestion").forEach((btn) => {
   });
 });
 
-// ─── Search again ───
 searchAgainBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
   setTimeout(() => searchInput.focus(), 500);
 });
 
-// ─── Beginning ───
 beginningBtn.addEventListener("click", () => {
   profileSection.setAttribute("hidden", "");
   hero.classList.remove("collapsed");
@@ -348,10 +334,8 @@ beginningBtn.addEventListener("click", () => {
   searchInput.value = "";
   hideError();
 
-  // Reset sort state and toggle buttons
   currentSort = "stars";
 
-  // Clear URL hash
   history.replaceState(null, "", window.location.pathname);
   toggleBtns.forEach((btn) => {
     const isStars = btn.dataset.sort === "stars";
@@ -363,14 +347,12 @@ beginningBtn.addEventListener("click", () => {
   setTimeout(() => searchInput.focus(), 500);
 });
 
-// ─── Events ───
 searchBtn.addEventListener("click", handleSearch);
 
 searchInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") handleSearch();
 });
 
-// ─── Hash routing ───
 function getHashUsername() {
   const hash = window.location.hash.slice(1).trim();
   return hash || null;
@@ -386,7 +368,6 @@ function handleHashChange() {
 
 window.addEventListener("hashchange", handleHashChange);
 
-// Load from hash on first visit
 const initialUser = getHashUsername();
 if (initialUser) {
   searchInput.value = initialUser;
