@@ -204,7 +204,6 @@ main {
 }
 
 #search-input:focus {
-  border-color: var(--border);
   box-shadow: 0 0 0 3px rgba(90, 40, 10, 0.08);
 }
 
