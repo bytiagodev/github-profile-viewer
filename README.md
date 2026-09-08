@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://bytiagodev.github.io/github-profile-viewer/">Live</a> · <a href="https://bytiago.com">Portfolio</a>
+  <a href="https://bytiagodev.github.io/github-profile-viewer/">Live Demo</a> &nbsp;•&nbsp; <a href="https://bytiago.com/">🌐 <strong>bytiago.com</strong> &nbsp;•&nbsp; View my full portfolio</a>
 </p>
 
 ---
@@ -29,6 +29,11 @@ I also had to handle edge cases, like repositories that have never had a commit 
 Instead of a standard dark mode developer tool look, I went with a warm camel background and dark header and footer bookends. The typography pairs Fraunces for the display headings with DM Mono for the system font and metadata.
 
 The most fun detail is how the data drives the colors. The app finds the user's top programming language and uses its official GitHub color for the avatar ring and the language chart. The repository cards use the same color system, so the whole page feels connected to the specific user you are searching.
+
+---
+
+### More of my work
+If you enjoyed this project, check out my full portfolio and other experiments at [bytiago.com](https://bytiago.com/).
 
 ---
 
