@@ -2,41 +2,44 @@
   <img src="banner.svg" alt="GitHub Profile Viewer banner" width="100%" />
 </p>
 
+<h3 align="center">Every profile tells a story.</h3>
+
 <p align="center">
-  <a href="https://bytiagodev.github.io/github-profile-viewer/">Live Demo</a> &nbsp;•&nbsp; <a href="https://bytiago.com/">🌐 <strong>bytiago.com</strong> &nbsp;•&nbsp; View my full portfolio</a>
+  <a href="https://bytiagodev.github.io/github-profile-viewer/">Search a username</a>
 </p>
 
 ---
 
 ## The idea
 
-I wanted to build a simple tool that searches for a GitHub username and displays their profile. Instead of just throwing raw JSON onto the screen, I wanted to practice making an API demo that actually felt like a finished product. The whole thing is built with plain HTML, CSS, and vanilla JavaScript. There are no frameworks, no build steps, and no external dependencies.
+Type a GitHub username, get that person's profile laid out like something worth reading rather than raw JSON with a stylesheet over it. Plain HTML, CSS and vanilla JavaScript. No frameworks, no build step, no dependencies.
 
-## How it works
+## Two requests, one screen
 
-When you search for a username, the app makes two parallel requests to the GitHub REST API: one for the user's basic info and one for their public repositories. Fetching them at the same time makes the page load much faster than waiting for one request to finish before starting the next.
+A search fires both API calls at once: the user record and their public repositories. Waiting for the first to finish before starting the second doubles the time on screen for no benefit, so they resolve in parallel and the page renders when both land.
 
-Since the API doesn't give you a breakdown of the languages a user actually writes, I had to build one. The app counts the primary language of every public repository and uses that to draw a proportional bar chart. It isn't perfectly accurate since it just counts repos rather than lines of code, but it keeps the app simple and avoids hitting the API rate limit with too many extra requests.
+The language breakdown is derived, not fetched. The API will not hand you a summary of what somebody actually writes, so the app reads the primary language of every public repo, counts them, and draws the top six as proportional bars. Counting repositories is not the same as counting lines of code and the bars are honest about being an approximation, but the alternative is a request per repository and a rate limit hit within a couple of searches.
 
-## Handling the API
+## The decision I would defend in an interview
 
-Working with the public GitHub API means dealing with strict rate limits and missing data. If a search fails or the rate limit is hit, the app shows clear error messages instead of just breaking or showing a blank screen. 
+Repository recency reads `pushed_at`, never `updated_at`.
 
-I also had to handle edge cases, like repositories that have never had a commit pushed to them. The API returns a null date for those, which JavaScript tries to turn into a date in 1970. If there is no real date, the app just hides that piece of metadata entirely.
+`updated_at` sounds like the field you want and is not. GitHub bumps it on any change to the repository record: a new star, a description edit, a topic change, a licence detection, a background job nobody triggered. Sorting on it produced a list where almost everything claimed to be recently active, and "recently updated" quietly became "recently starred". `pushed_at` only moves when commits land on a branch, which is what the label promises, so the toggle reads **Latest Commits** and means it.
 
-## Design details
+One consequence worth knowing. A repository with no commits returns `pushed_at: null`, and `new Date(null)` is not an invalid date, it is the epoch. Rendered without a guard, an empty repo confidently reports itself as 56 years old. The formatter returns nothing on a falsy value and the card drops the timestamp entirely. The sort needs no guard at all, because 0 sinks those repos to the bottom on its own.
 
-Instead of a standard dark mode developer tool look, I went with a warm camel background and dark header and footer bookends. The typography pairs Fraunces for the display headings with DM Mono for the system font and metadata.
+## The colours come from the data
 
-The most fun detail is how the data drives the colors. The app finds the user's top programming language and uses its official GitHub color for the avatar ring and the language chart. The repository cards use the same color system, so the whole page feels connected to the specific user you are searching.
+Rather than the usual grey developer-tool palette, the page runs on warm camel with dark bookends at the header and footer and a single restrained red accent. Fraunces sets the display type, DM Mono handles metadata and labels.
 
----
+The part I like most is that the user changes the colour scheme without knowing it. The app finds their most used language, takes its official GitHub colour, and applies it to the avatar ring and the language bars, which animate from zero to their width on render. Search two people and the page looks like two different people.
 
-### More of my work
-If you enjoyed this project, check out my full portfolio and other experiments at [bytiago.com](https://bytiago.com/).
+## Rate limits, missing data, and other realities
+
+The public API is unauthenticated, so the app is one search away from a 403 at any time. Unknown user, rate limit and unexpected failure each get their own message, because a blank screen tells nobody anything. Missing bios, absent locations and empty blog fields are all expected states rather than errors.
 
 ---
 
 <p align="center">
-  <sub>Made by <a href="https://github.com/bytiagodev">Tiago Teixeira</a> · <a href="https://bytiago.com">bytiago.com</a></sub>
+  <sub>Made by <a href="https://github.com/bytiagodev">Tiago Teixeira</a> · More at <a href="https://bytiago.com">bytiago.com</a></sub>
 </p>
