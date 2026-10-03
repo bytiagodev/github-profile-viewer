@@ -41,5 +41,5 @@ The public API is unauthenticated, so the app is one search away from a 403 at a
 ---
 
 <p align="center">
-  <sub>Made by <a href="https://github.com/bytiagodev">Tiago Teixeira</a> · More at <a href="https://bytiago.com">bytiago.com</a></sub>
+  <sub>Made by <a href="https://github.com/bytiagodev">Tiago Teixeira</a> · More at <a href="https://bytiago.com/en/">bytiago.com</a></sub>
 </p>
