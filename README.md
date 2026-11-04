@@ -12,15 +12,15 @@
 
 ## The idea
 
-Type a GitHub username, get that person's profile laid out like something worth reading rather than raw JSON with a stylesheet over it. Plain HTML, CSS and vanilla JavaScript. No frameworks, no build step, no dependencies.
+Type a GitHub username, get that person's profile laid out like something worth reading rather than raw JSON with a stylesheet over it. Plain HTML, CSS and JavaScript against the public GitHub API.
 
 ## Two requests, one screen
 
 A search fires both API calls at once: the user record and their public repositories. Waiting for the first to finish before starting the second doubles the time on screen for no benefit, so they resolve in parallel and the page renders when both land.
 
-The language breakdown is derived, not fetched. The API will not hand you a summary of what somebody actually writes, so the app reads the primary language of every public repo, counts them, and draws the top six as proportional bars. Counting repositories is not the same as counting lines of code and the bars are honest about being an approximation, but the alternative is a request per repository and a rate limit hit within a couple of searches.
+The language breakdown is derived, not fetched. The API will not hand you a summary of what somebody actually writes, so the app reads the primary language of every public repo, counts them and draws the top six as proportional bars. Counting repositories is not the same as counting lines of code, and the bars are an approximation, but the alternative is a request per repository and a rate limit hit within a couple of searches.
 
-## The decision I would defend in an interview
+## `pushed_at`, not `updated_at`
 
 Repository recency reads `pushed_at`, never `updated_at`.
 
@@ -30,16 +30,16 @@ One consequence worth knowing. A repository with no commits returns `pushed_at: 
 
 ## The colours come from the data
 
-Rather than the usual grey developer-tool palette, the page runs on warm camel with dark bookends at the header and footer and a single restrained red accent. Fraunces sets the display type, DM Mono handles metadata and labels.
+Rather than the usual grey developer-tool palette, the page runs on warm camel with dark bookends at the header and footer and a single restrained red accent.
 
 The part I like most is that the user changes the colour scheme without knowing it. The app finds their most used language, takes its official GitHub colour, and applies it to the avatar ring and the language bars, which animate from zero to their width on render. Search two people and the page looks like two different people.
 
-## Rate limits, missing data, and other realities
+## Rate limits and missing data
 
 The public API is unauthenticated, so the app is one search away from a 403 at any time. Unknown user, rate limit and unexpected failure each get their own message, because a blank screen tells nobody anything. Missing bios, absent locations and empty blog fields are all expected states rather than errors.
 
 ---
 
 <p align="center">
-  <sub>Made by <a href="https://github.com/bytiagodev">Tiago Teixeira</a> · More at <a href="https://bytiago.com/en/">bytiago.com</a></sub>
+  <sub>Made by <a href="https://bytiago.com/en/">Tiago Teixeira</a></sub>
 </p>
