@@ -12,7 +12,7 @@
 
 ## The idea
 
-Type a GitHub username, get that person's profile laid out like something worth reading rather than raw JSON with a stylesheet over it. Plain HTML, CSS and JavaScript against the public GitHub API.
+Type a GitHub username and get their profile, languages and most recent work on one page, rather than raw JSON with a stylesheet over it. Plain HTML, CSS and JavaScript against the public GitHub API.
 
 ## Two requests, one screen
 
