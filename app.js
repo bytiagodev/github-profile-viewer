@@ -29,6 +29,11 @@ let totalRepos = 0;
 let currentSort = "stars";
 let latestSearch = 0;
 
+const scrollBehavior = window.matchMedia("(prefers-reduced-motion: reduce)")
+  .matches
+  ? "auto"
+  : "smooth";
+
 // ─── Language colors ───
 const langColors = {
   JavaScript: "#f1e05a",
@@ -278,7 +283,7 @@ async function handleSearch() {
       el.classList.add("animate-in");
     });
 
-    profileSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    profileSection.scrollIntoView({ behavior: scrollBehavior, block: "start" });
     announce(`Showing profile for ${user.name || user.login}`);
 
     history.replaceState(null, "", `#${username}`);
@@ -308,7 +313,7 @@ document.querySelectorAll(".suggestion").forEach((btn) => {
 });
 
 searchAgainBtn.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: scrollBehavior });
   setTimeout(() => searchInput.focus(), 500);
 });
 
@@ -329,7 +334,7 @@ beginningBtn.addEventListener("click", () => {
     btn.setAttribute("aria-pressed", String(isStars));
   });
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: scrollBehavior });
   setTimeout(() => searchInput.focus(), 500);
 });
 

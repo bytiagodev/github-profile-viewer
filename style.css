@@ -6,7 +6,7 @@
   --border: #ddd5c8;
   --text-primary: #111111;
   --text-secondary: #5a5248;
-  --text-muted: #9a8e84;
+  --text-muted: #72685e;
   --accent: #e63946;
   --accent-mid: #f4969c;
   --radius-sm: 8px;
@@ -75,6 +75,16 @@ body {
 
 .skip-link:focus {
   top: 0.5rem;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+footer a:focus-visible {
+  outline-color: #fff;
 }
 
 /* ─── Header ─── */
@@ -204,7 +214,8 @@ main {
 }
 
 #search-input:focus {
-  box-shadow: 0 0 0 3px rgba(90, 40, 10, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.25);
 }
 
 #search-btn {
@@ -621,7 +632,7 @@ footer {
   text-align: center;
   padding: 1.25rem 1.5rem;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.55);
   background: #111111;
   border-top: 2.5px solid var(--accent);
   display: flex;
@@ -755,4 +766,26 @@ footer a:hover {
   .lang-row {
     grid-template-columns: 90px 1fr 40px;
   }
-}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-in {
+    animation: none;
+  }
+
+  .lang-bar-fill,
+  .repo-card,
+  #search-btn,
+  #profile-avatar-wrapper {
+    transition: none;
+  }
+
+  .loading-pulse span {
+    animation: none;
+    opacity: 1;
+  }
+}
