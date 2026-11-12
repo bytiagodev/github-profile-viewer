@@ -74,24 +74,6 @@ function hideError() {
   errorMessage.setAttribute("hidden", "");
 }
 
-function formatNumber(num) {
-  if (num >= 1000) return (num / 1000).toFixed(1) + "k";
-  return num;
-}
-
-function timeAgo(dateString) {
-  if (!dateString) return null;
-  const date = new Date(dateString);
-  const now = new Date();
-  const diff = Math.floor((now - date) / 1000);
-  if (diff < 60) return "just now";
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-  if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
-  if (diff < 31536000) return `${Math.floor(diff / 2592000)}mo ago`;
-  return `${Math.floor(diff / 31536000)}y ago`;
-}
-
 async function fetchUser(username) {
   const res = await fetch(`https://api.github.com/users/${username}`);
   if (res.status === 404)
@@ -161,38 +143,24 @@ function renderProfile(user) {
 }
 
 function renderLanguages(repos) {
-  const counts = {};
+  const languages = topLanguages(repos);
+  const wrapper = document.getElementById("profile-avatar-wrapper");
 
-  repos.forEach((repo) => {
-    if (repo.language) {
-      counts[repo.language] = (counts[repo.language] || 0) + 1;
-    }
-  });
-
-  const sorted = Object.entries(counts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6);
-
-  if (sorted.length === 0) {
+  if (languages.length === 0) {
+    wrapper.style.borderColor = "";
     languagesChart.innerHTML =
-      '<p style="font-size:0.8rem;color:var(--text-muted)">No language data available.</p>';
+      '<p class="lang-empty">No language data available.</p>';
     return;
   }
 
-  const topLang = sorted[0][0];
-  const ringColor = langColors[topLang] || fallbackColor;
-  const wrapper = document.getElementById("profile-avatar-wrapper");
-  wrapper.style.borderColor = ringColor;
+  wrapper.style.borderColor = langColors[languages[0].name] || fallbackColor;
 
-  const total = sorted.reduce((sum, [, count]) => sum + count, 0);
-
-  languagesChart.innerHTML = sorted
-    .map(([lang, count]) => {
-      const percent = Math.round((count / total) * 100);
-      const color = langColors[lang] || fallbackColor;
+  languagesChart.innerHTML = languages
+    .map(({ name, percent }) => {
+      const color = langColors[name] || fallbackColor;
       return `
       <div class="lang-row">
-        <span class="lang-name">${escapeHtml(lang)}</span>
+        <span class="lang-name">${escapeHtml(name)}</span>
         <div class="lang-bar-track">
           <div class="lang-bar-fill" style="width: 0%; background: ${color}" data-width="${percent}%"></div>
         </div>
@@ -212,12 +180,7 @@ function renderLanguages(repos) {
 function renderRepos(sort) {
   currentSort = sort;
 
-  const sorted = [...allRepos].sort((a, b) => {
-    if (sort === "stars") return b.stargazers_count - a.stargazers_count;
-    return new Date(b.pushed_at) - new Date(a.pushed_at);
-  });
-
-  const top = sorted.slice(0, 8);
+  const top = sortRepos(allRepos, sort).slice(0, 8);
   const repoCount = document.getElementById("repo-count");
   if (repoCount) {
     repoCount.textContent = `showing ${top.length} of ${allRepos.length} public repositories`;
@@ -335,6 +298,7 @@ beginningBtn.addEventListener("click", () => {
   hideError();
 
   currentSort = "stars";
+  document.getElementById("profile-avatar-wrapper").style.borderColor = "";
 
   history.replaceState(null, "", window.location.pathname);
   toggleBtns.forEach((btn) => {

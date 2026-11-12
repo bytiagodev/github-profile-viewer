@@ -477,6 +477,11 @@ main {
   text-align: right;
 }
 
+.lang-empty {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
 /* ─── Repos ─── */
 #repos-title {
   display: flex;
@@ -750,4 +755,4 @@ footer a:hover {
   .lang-row {
     grid-template-columns: 90px 1fr 40px;
   }
-}
+}
